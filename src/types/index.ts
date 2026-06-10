@@ -28,4 +28,10 @@ export type {
   UpdatePermissionRequest,
 } from "./permission";
 
+export type { EventSummary, EventDetail } from "./event";
+
+export type { SessionSummary } from "./session";
+
+export type { AttendeeSimple } from "./attendee";
+
 export type { PaginatedResponse, SingleResponse } from "./response";

@@ -7,7 +7,9 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/login")({
   beforeLoad: () => {
     const { accessToken, roles, permissions } = useAuthStore.getState();
+
     if (!accessToken || isTokenExpired(accessToken)) return;
+
     throw redirect({ to: getRedirectPath(roles, permissions) });
   },
   component: LoginPage,

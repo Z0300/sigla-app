@@ -22,7 +22,7 @@ export function ErrorPage({ error, reset }: ErrorComponentProps) {
           <TriangleAlert className="h-4 w-4" />
           <AlertTitle>Error details</AlertTitle>
           <AlertDescription className="font-mono text-xs break-all">
-          An unexpected error occurred. You can try again or go back home.
+            An unexpected error occurred. You can try again or go back home.
           </AlertDescription>
         </Alert>
       )}
@@ -33,7 +33,7 @@ export function ErrorPage({ error, reset }: ErrorComponentProps) {
           Try again
         </Button>
         <Button variant="outline" asChild>
-          <Link to="/">
+          <Link to="/dashboard">
             <Home className="mr-2 h-4 w-4" />
             Go home
           </Link>

@@ -3,6 +3,15 @@ import { decodeToken } from "#/utils/jwt";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+export const initialAuthState: AuthState = {
+  accessToken: null,
+  roles: [],
+  permissions: [],
+  user: null,
+  setAuth: () => {},
+  clearAuth: () => {},
+};
+
 const storage = {
   getItem: (name: string) => {
     if (typeof window === "undefined") return null;

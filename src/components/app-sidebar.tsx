@@ -42,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const navMain = [
     {
       title: "Dashboard",
-      url: "/",
+      url: "/dashboard",
       icon: <LayoutDashboardIcon />,
     },
     ...(canAccessManagement ? [{

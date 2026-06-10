@@ -7,7 +7,7 @@ export function NotFoundPage() {
   const router = useRouter();
   const { accessToken } = useAuthStore();
 
-  const homeRoute = accessToken ? "/" : "/login";
+  const homeRoute = accessToken ? "/dashboard" : "/login";
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-4 text-center">

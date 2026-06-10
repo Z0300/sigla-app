@@ -1,10 +1,9 @@
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import { getContext } from "./integrations/tanstack-query/root-provider";
 import { NotFoundPage } from "./components/not-found";
-import { useAuthStore } from "./store/authStore";
+import { initialAuthState, useAuthStore } from "./store/authStore";
 import GlobalPending from "./components/global-pending";
 
 export function getRouter() {
@@ -12,11 +11,16 @@ export function getRouter() {
 
   const router = createTanStackRouter({
     routeTree,
-    context: { ...context, auth: useAuthStore.getState() },
+    context: {
+      ...context,
+      auth: typeof window !== 'undefined'
+        ? useAuthStore.getState()
+        : initialAuthState,
+    },
     scrollRestoration: true,
-    defaultPendingMs: 300,
+    defaultPendingMs: 1000,
     defaultPendingMinMs: 500,
-    defaultPreload: 'intent',
+    defaultPreload: false,
     defaultPreloadDelay: 50,
     defaultPreloadStaleTime: 0,
     defaultNotFoundComponent: NotFoundPage,
@@ -27,6 +31,9 @@ export function getRouter() {
 
   return router;
 }
+
+
+export const router = typeof window !== 'undefined' ? getRouter() : (null as any);
 
 declare module "@tanstack/react-router" {
   interface Register {
