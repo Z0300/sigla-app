@@ -17,6 +17,12 @@ export const Permissions = {
   // Profile
   PROFILE_READ: "profile:read",
   PROFILE_UPDATE: "profile:update",
+
+  // Events
+  EVENTS_READ: "events:read",
+  EVENTS_CREATE: "events:create",
+  EVENTS_UPDATE: "events:update",
+  EVENTS_DELETE: "events:delete",
 } as const;
 
 export const Roles = {

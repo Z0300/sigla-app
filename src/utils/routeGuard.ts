@@ -33,7 +33,8 @@ export function getRedirectPath(
   roles: string[],
   _permissions: string[],
 ): string {
-  if (roles.includes(Roles.SUPER_ADMIN)) return "/users";
-  if (roles.includes(Roles.ADMIN)) return "/users";
-  return "/";
+  if (roles.includes(Roles.SUPER_ADMIN)) return "/dashboard";
+  if (roles.includes(Roles.ADMIN)) return "/dashboard";
+  if (roles.includes(Roles.USER)) return "/events";
+  return "/events";
 }

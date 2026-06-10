@@ -14,6 +14,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "#/components/ui/sidebar";
+import { getInitials } from "#/lib/get-initials";
 import { useLogoutMutation } from "#/services/auth/authMutations";
 import type { AuthUser } from "#/types";
 import { Link } from "@tanstack/react-router";
@@ -24,18 +25,6 @@ import {
   KeyRoundIcon,
   UserIcon,
 } from "lucide-react";
-
-function getInitials(name?: string) {
-  if (!name) return '?'
-  return name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((n) => n[0].toUpperCase())
-    .join('')
-}
-
-
 
 export function NavUser({
   user,

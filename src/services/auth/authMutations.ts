@@ -8,6 +8,7 @@ import { getRedirectPath } from "@/utils/routeGuard";
 import { decodeToken } from "@/utils/jwt";
 import { toast } from "sonner";
 import axios from "axios";
+import { router } from "#/router";
 
 export function useLoginMutation(redirectTo?: string) {
   const { setAuth } = useAuthStore();
@@ -22,6 +23,7 @@ export function useLoginMutation(redirectTo?: string) {
       const decoded = decodeToken(response.data.accessToken);
       const roles = decoded.roles ?? [];
       const permissions = decoded.permissions ?? [];
+      router.invalidate();
       navigate({ to: redirectTo ?? getRedirectPath(roles, permissions) });
     },
   });
@@ -37,7 +39,7 @@ export function useRegisterMutation() {
 
     onSuccess: (response) => {
       setAuth(response.data);
-      navigate({ to: "/" });
+      navigate({ to: "/dashboard" });
     },
   });
 }
