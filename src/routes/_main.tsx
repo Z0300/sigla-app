@@ -37,6 +37,8 @@ function RouteComponent() {
     const { user } = useAuthStore();
     const logout = useLogoutMutation();
     const initials = getInitials(`${user?.firstName} ${user?.lastName}`)
+    const fullName = `${user?.firstName} ${user?.lastName}`
+    const email = user?.email
 
     return (
         <div className="flex flex-col min-h-screen bg-[#FBF9F6]">
@@ -80,8 +82,8 @@ function RouteComponent() {
                             <DropdownMenuContent align="end" className="w-48">
                                 <DropdownMenuLabel className="font-normal">
                                     <div className="flex flex-col gap-0.5">
-                                        <span className="text-sm font-medium text-neutral-900">John Doe</span>
-                                        <span className="text-xs text-neutral-500">john@example.com</span>
+                                        <span className="text-sm font-medium text-neutral-900">{fullName}</span>
+                                        <span className="text-xs text-neutral-500">{email}</span>
                                     </div>
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
