@@ -28,5 +28,5 @@ export const Permissions = {
 export const Roles = {
   SUPER_ADMIN: "SUPER_ADMIN",
   ADMIN: "ADMIN",
-  USER: "USER",
+  ORGANIZER: "ORGANIZER",
 } as const;

@@ -35,3 +35,10 @@ export type { SessionSummary } from "./session";
 export type { AttendeeSimple } from "./attendee";
 
 export type { PaginatedResponse, SingleResponse } from "./response";
+
+export type {
+  OrganizerEvent,
+  OrganizerAttendee,
+  OrganizerEventFilters,
+  OrganizerSession,
+} from "./event";

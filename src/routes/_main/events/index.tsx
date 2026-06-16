@@ -4,7 +4,7 @@ import { Skeleton } from '#/components/ui/skeleton';
 import { Permissions } from '#/constants/permissions';
 import { EventCard } from '#/features/events/EventCard';
 import { usePublicEvents } from '#/services/events/eventQueries';
-import type { EventFilters } from '#/types/event';
+import { EventStatus, type EventFilters, type PublicEventStatus } from '#/types/event';
 import { requirePermission } from '#/utils/routeGuard';
 import { createFileRoute } from '@tanstack/react-router'
 import { Calendar, Search } from 'lucide-react';
@@ -18,10 +18,10 @@ export const Route = createFileRoute('/_main/events/')({
   pendingComponent: GlobalPending
 })
 
-const STATUS_FILTERS: { label: string; value: EventFilters['status'] }[] = [
+const STATUS_FILTERS: { label: string; value: PublicEventStatus | null }[] = [
   { label: 'All', value: null },
-  { label: 'Open', value: 'published' },
-  { label: 'Ongoing', value: 'ongoing' },
+  { label: 'Open', value: EventStatus.published },
+  { label: 'Ongoing', value: EventStatus.ongoing },
 ]
 
 function RouteComponent() {

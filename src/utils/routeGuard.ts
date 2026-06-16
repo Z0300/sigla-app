@@ -35,6 +35,6 @@ export function getRedirectPath(
 ): string {
   if (roles.includes(Roles.SUPER_ADMIN)) return "/dashboard";
   if (roles.includes(Roles.ADMIN)) return "/dashboard";
-  if (roles.includes(Roles.USER)) return "/events";
+  if (roles.includes(Roles.ORGANIZER)) return "/organizer/events";
   return "/events";
 }
