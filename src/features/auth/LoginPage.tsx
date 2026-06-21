@@ -31,8 +31,14 @@ export function LoginPage({ redirectTo }: LoginFormProps) {
       onChange: LoginSchema,
     },
     onSubmit: async ({ value }) => {
-      await loginMutation.mutateAsync(value);
+      try {
+        await loginMutation.mutateAsync(value);
+      } catch (e) {
+        if (!(e instanceof Error)) return;
+        throw e;
+      }
     },
+
   });
 
   return (

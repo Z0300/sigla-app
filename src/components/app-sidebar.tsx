@@ -8,20 +8,10 @@ import { NavUser } from "./nav-user";
 
 const teams = [
   {
-    name: "Saturn UI",
+    name: "SIGLA",
     logo: <GalleryVerticalEndIcon />,
-    plan: "Free",
-  },
-  {
-    name: "Acme Corp.",
-    logo: <AudioLinesIcon />,
-    plan: "Startup",
-  },
-  {
-    name: "Evil Corp.",
-    logo: <TerminalIcon />,
-    plan: "Free",
-  },
+    plan: "v1.0",
+  }
 ]
 
 

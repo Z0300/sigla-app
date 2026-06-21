@@ -85,7 +85,7 @@ function AuthenticatedLayoutInner() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">Saturn UI</BreadcrumbLink>
+                  <BreadcrumbLink href="#">SIGLA</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>

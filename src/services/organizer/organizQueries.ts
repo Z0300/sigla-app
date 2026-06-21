@@ -6,6 +6,7 @@ import type {
   OrganizerAttendee,
   OrganizerEvent,
   OrganizerEventFilters,
+  OrganizerStats,
   PaginatedResponse,
   SessionSummary,
   SingleResponse,
@@ -66,5 +67,20 @@ export function useEventAttendees(
       return data.data;
     },
     enabled: !!eventId,
+  });
+}
+
+// Statistics
+
+export function useOrganizerStats() {
+  return useQuery({
+    queryKey: eventKeys.organizerStats(),
+    queryFn: async () => {
+      const { data } = await api.get<SingleResponse<OrganizerStats>>(
+        "/v1/organizer/stats",
+      );
+      return data.data;
+    },
+    staleTime: 60_000,
   });
 }

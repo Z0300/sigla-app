@@ -12,4 +12,5 @@ export const eventKeys = {
     status?: string | null,
     page?: number,
   ) => ["events", "organizer", eventId, "attendees", { status, page }] as const,
+  organizerStats: () => ["organizer", "stats"] as const,
 };

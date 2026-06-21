@@ -54,6 +54,7 @@ export function NavMain({
                   <SidebarMenuButton
                     tooltip={item.title}
                     isActive={item.items.some((sub) => pathname.startsWith(sub.url))}
+                    className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground"
                   >
                     {item.icon}
                     <span>{item.title}</span>
@@ -67,6 +68,7 @@ export function NavMain({
                         <SidebarMenuSubButton
                           asChild
                           isActive={pathname.startsWith(subItem.url)}
+                          className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground"
                         >
                           <Link
                             to={subItem.url}
@@ -83,11 +85,15 @@ export function NavMain({
             </Collapsible>
           ) : (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title} asChild>
+              <SidebarMenuButton
+                tooltip={item.title}
+                asChild
+                isActive={pathname.startsWith(item.url)}
+                className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground"
+              >
                 <Link
                   to={item.url}
-                  activeOptions={{ exact: true }}
-                  activeProps={{ className: 'bg-sidebar-accent text-sidebar-accent-foreground' }}
+                  activeOptions={{ exact: false }}
                 >
                   {item.icon}
                   <span>{item.title}</span>
