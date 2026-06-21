@@ -7,6 +7,9 @@ export const Route = createFileRoute('/_admin/organizer/events/')({
   beforeLoad: () => {
     requirePermission(Permissions.EVENTS_READ)
   },
+  staticData: {
+    title: "Events Management"
+  },
   component: EventsPage,
 })
 

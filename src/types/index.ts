@@ -42,3 +42,9 @@ export type {
   OrganizerEventFilters,
   OrganizerSession,
 } from "./event";
+
+export type {
+  SessionAttendanceStat,
+  DailyRegistrationStat,
+  OrganizerStats,
+} from "./stats";

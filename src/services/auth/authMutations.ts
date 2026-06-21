@@ -23,8 +23,8 @@ export function useLoginMutation(redirectTo?: string) {
       const decoded = decodeToken(response.data.accessToken);
       const roles = decoded.roles ?? [];
       const permissions = decoded.permissions ?? [];
-      router.invalidate();
       navigate({ to: redirectTo ?? getRedirectPath(roles, permissions) });
+      router.invalidate();
     },
   });
 }
