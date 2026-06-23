@@ -3,10 +3,16 @@ import {
   type AttendeeSimple,
   type PaginatedResponse,
   type SingleResponse,
+  type TicketResponse,
 } from "#/types";
 import type { EventDetail, EventFilters, EventSummary } from "#/types/event";
 import { useQuery } from "@tanstack/react-query";
 import { eventKeys } from "./eventKeys";
+
+export interface MyTicketsFilters {
+  searchTerm?: string;
+  status?: AttendeeSimple["status"] | null;
+}
 
 export function usePublicEvents(filters: EventFilters = {}) {
   return useQuery({
@@ -50,5 +56,19 @@ export function useMyRegistration(eventId: number) {
     },
     enabled: !!eventId,
     retry: false,
+  });
+}
+
+export function useMyTickets() {
+  return useQuery({
+    queryKey: eventKeys.myTickets(),
+    queryFn: async () => {
+      const { data } = await api.get<PaginatedResponse<TicketResponse>>(
+        "/v1/users/me/tickets",
+      );
+      return data;
+    },
+    staleTime: 30_000,
+    placeholderData: (prev) => prev,
   });
 }
