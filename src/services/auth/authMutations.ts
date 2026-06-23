@@ -8,7 +8,6 @@ import { getRedirectPath } from "@/utils/routeGuard";
 import { decodeToken } from "@/utils/jwt";
 import { toast } from "sonner";
 import axios from "axios";
-import { router } from "#/router";
 
 export function useLoginMutation(redirectTo?: string) {
   const { setAuth } = useAuthStore();
@@ -24,7 +23,6 @@ export function useLoginMutation(redirectTo?: string) {
       const roles = decoded.roles ?? [];
       const permissions = decoded.permissions ?? [];
       navigate({ to: redirectTo ?? getRedirectPath(roles, permissions) });
-      router.invalidate();
     },
   });
 }
