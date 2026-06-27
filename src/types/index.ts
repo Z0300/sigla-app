@@ -34,7 +34,11 @@ export type { SessionSummary } from "./session";
 
 export type { AttendeeSimple, TicketResponse } from "./attendee";
 
-export type { PaginatedResponse, SingleResponse } from "./response";
+export type {
+  PaginatedResponse,
+  SingleResponse,
+  ErrorResponse,
+} from "./response";
 
 export type {
   OrganizerEvent,

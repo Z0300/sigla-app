@@ -14,7 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { navigate } from "#/lib/navigate";
 
 type Props = {
-    toEditPage: "/organizer/events/$eventId/edit";
+    toEditPage: "/events/$eventId/edit";
     onStatusChange: (eventId: number, status: EventStatus) => void;
 };
 
@@ -24,34 +24,35 @@ export const createEventColumns = ({
 }: Props): ColumnDef<OrganizerEvent>[] => [
         {
             accessorKey: "title",
-            header: "Name",
+            header: "NAME",
             cell: ({ row }) => (
-                <Button variant="link" className="cursor-pointer" onClick={() => navigate({ to: String(row.original.id) })}>{row.original.title}</Button>
+                <button
+                    className="text-sm font-medium hover:underline cursor-pointer text-left"
+                    onClick={() => navigate({ to: String(row.original.id) })}
+                >
+                    {row.original.title}
+                </button>
             )
         },
         {
             accessorKey: "venue",
-            header: "Venue",
+            header: "VENUE",
         },
         {
             accessorKey: "registeredCount",
-            header: "Registrations",
+            header: "REGISTRATIONS",
         },
 
         {
-            header: "Status",
+            header: "STATUS",
             cell: ({ row }) => (
                 <Badge className={getStatusBadgeClass(row.original.status)}>{row.original.status}</Badge>
             ),
         },
-        {
-            accessorKey: "capacity",
-            header: "Capacity",
-        },
 
         {
             id: "actions",
-            header: "Actions",
+            header: "ACTIONS",
             cell: ({ row }) => {
 
                 const event = row.original;
@@ -71,7 +72,7 @@ export const createEventColumns = ({
                         <Can permission={Permissions.EVENTS_UPDATE}>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="icon">
+                                    <Button variant="ghost" size="icon" className="h-7 w-7">
                                         <MoreVerticalIcon className="h-4 w-4" />
                                     </Button>
                                 </DropdownMenuTrigger>

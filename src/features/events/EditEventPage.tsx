@@ -6,7 +6,7 @@ import { useOrganizerEventDetail } from '#/services/organizer/organizQueries'
 
 export function EditEventPage() {
     const navigate = useNavigate()
-    const { eventId } = useParams({ from: '/_admin/organizer/events/$eventId/edit' })
+    const { eventId } = useParams({ from: '/_admin/events/$eventId/edit' })
 
     const { data: event, isPending } = useOrganizerEventDetail(Number(eventId))
 
@@ -14,7 +14,7 @@ export function EditEventPage() {
         <div className="min-h-screen bg-background">
             <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
                 <button
-                    onClick={() => navigate({ to: '/organizer/events' })}
+                    onClick={() => navigate({ to: '/events' })}
                     className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                     <ArrowLeft className="h-4 w-4" />
@@ -49,7 +49,7 @@ export function EditEventPage() {
                             mode="edit"
                             event={event}
                             onSuccess={() => {
-                                navigate({ to: '/organizer/events' })
+                                navigate({ to: '/events' })
                             }}
                         />
                     </div>
@@ -57,7 +57,7 @@ export function EditEventPage() {
                     <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-6 text-center">
                         <p className="text-destructive font-medium">Event not found</p>
                         <button
-                            onClick={() => navigate({ to: '/organizer/events' })}
+                            onClick={() => navigate({ to: '/events' })}
                             className="text-sm text-destructive underline mt-2 hover:no-underline"
                         >
                             Go back to events

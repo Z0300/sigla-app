@@ -16,3 +16,10 @@ export interface SingleResponse<T> {
   data: T;
 }
 
+export interface ErrorResponse {
+  success: boolean;
+  message: string;
+  errorCode: string;
+  details: Record<string, string>;
+  timestamp: string;
+}

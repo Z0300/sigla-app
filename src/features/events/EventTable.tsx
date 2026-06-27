@@ -64,7 +64,7 @@ export function EventTable({
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
+                            <TableRow key={headerGroup.id} className="bg-muted/50 hover:bg-muted/50 border-b border-border">
                                 {headerGroup.headers.map((header) => (
                                     <TableHead key={header.id}>
                                         {flexRender(
@@ -88,7 +88,7 @@ export function EventTable({
 
                         {!isLoading && (data?.data ?? []).length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={columns.length} className="text-center py-8">
+                                <TableCell colSpan={columns.length} className="text-center py-4">
                                     No data found
                                 </TableCell>
                             </TableRow>

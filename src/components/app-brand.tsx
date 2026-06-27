@@ -13,7 +13,7 @@ export function AppBrand({
 }: {
   teams: {
     name: string;
-    logo: React.ReactNode;
+    logo: string;
     plan: string;
   }[];
 }) {
@@ -23,6 +23,7 @@ export function AppBrand({
     return null;
   }
 
+  console.log(activeTeam.logo)
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -31,7 +32,7 @@ export function AppBrand({
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
         >
           <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-            {activeTeam.logo}
+            <img src={activeTeam.logo} alt={activeTeam.name} className="size-full object-contain" />
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-medium">{activeTeam.name}</span>
