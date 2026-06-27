@@ -7,6 +7,7 @@ import { useCreateEvent, useUpdateEvent } from '#/services/organizer/organizerMu
 import { useForm } from '@tanstack/react-form'
 import { EventSchema } from '#/schemas'
 import { FormFieldError } from '#/components/form/form-field-error'
+import { DateTimePicker } from '#/components/form/date-picker'
 
 interface Props {
     mode: 'create' | 'edit'
@@ -39,15 +40,14 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
             onChange: EventSchema,
         },
         onSubmit: async ({ value }) => {
-            await mutation.mutateAsync(value)
+            const res = await mutation.mutateAsync(value)
             if (onSuccess) {
-                onSuccess(value.id || (mutation.data as any)?.id)
+                onSuccess(res?.id || value.id)
             }
         },
     })
 
     const locked = isEdit && !['draft', 'published'].includes(event!.status)
-
     return (
         <form
             onSubmit={(e) => {
@@ -56,7 +56,7 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
             }}
             className="space-y-6"
         >
-            {/* Title */}
+
             <form.Field
                 name="title"
                 children={(field) => (
@@ -81,7 +81,7 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                 )}
             />
 
-            {/* Description */}
+
             <form.Field
                 name="description"
                 children={(field) => (
@@ -105,7 +105,7 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                 )}
             />
 
-            {/* Venue */}
+
             <form.Field
                 name="venue"
                 children={(field) => (
@@ -129,7 +129,7 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                 )}
             />
 
-            {/* Date range */}
+
             <div className="grid grid-cols-2 gap-4">
                 <form.Field
                     name="startDate"
@@ -138,12 +138,10 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                             <Label htmlFor={field.name}>
                                 Start date <span className="text-destructive">*</span>
                             </Label>
-                            <Input
-                                id={field.name}
-                                type="datetime-local"
+                            <DateTimePicker
                                 value={field.state.value}
                                 disabled={locked}
-                                onChange={(e) => field.handleChange(e.target.value)}
+                                onChange={field.handleChange}
                                 onBlur={field.handleBlur}
                             />
                             <FormFieldError
@@ -161,12 +159,10 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                             <Label htmlFor={field.name}>
                                 End date <span className="text-destructive">*</span>
                             </Label>
-                            <Input
-                                id={field.name}
-                                type="datetime-local"
+                            <DateTimePicker
                                 value={field.state.value}
                                 disabled={locked}
-                                onChange={(e) => field.handleChange(e.target.value)}
+                                onChange={field.handleChange}
                                 onBlur={field.handleBlur}
                             />
                             <FormFieldError
@@ -178,7 +174,7 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                 />
             </div>
 
-            {/* Capacity */}
+
             <form.Field
                 name="capacity"
                 children={(field) => (
@@ -204,7 +200,7 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                 )}
             />
 
-            {/* Error state */}
+
             {mutation.isError && (
                 <div className="rounded-lg bg-destructive/10 p-4 text-sm text-destructive">
                     <p className="font-medium">Failed to save event</p>
@@ -214,7 +210,7 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                 </div>
             )}
 
-            {/* Info message for locked events */}
+
             {locked && (
                 <div className="rounded-lg bg-amber-50 dark:bg-amber-950/30 p-4 text-sm text-amber-800 dark:text-amber-300">
                     <p className="font-medium">This event is "{event!.status}"</p>
@@ -222,21 +218,22 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                 </div>
             )}
 
-            {/* Buttons */}
-            <div className="flex gap-3 pt-4 border-t">
-                <Button
-                    type="submit"
-                    size="lg"
-                    disabled={mutation.isPending || !form.state.isFormValid}
-                    className="flex-1"
-                >
-                    {mutation.isPending
-                        ? 'Saving...'
-                        : isEdit
-                            ? 'Save changes'
-                            : 'Create event'}
-                </Button>
-            </div>
+            {!locked && (
+                <div className="flex gap-3 pt-4 border-t">
+                    <Button
+                        type="submit"
+                        size="lg"
+                        disabled={mutation.isPending || !form.state.isFormValid}
+                        className="flex-1"
+                    >
+                        {mutation.isPending
+                            ? 'Saving...'
+                            : isEdit
+                                ? 'Save changes'
+                                : 'Create event'}
+                    </Button>
+                </div>
+            )}
         </form>
     )
 }

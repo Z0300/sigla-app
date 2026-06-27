@@ -6,22 +6,55 @@ import type { AuthResponse, ChangePasswordRequest } from "@/types/auth";
 import type { LoginRequest, RegisterRequest } from "@/types/auth";
 import { getRedirectPath } from "@/utils/routeGuard";
 import { decodeToken } from "@/utils/jwt";
+import { Roles } from "@/constants/permissions";
 import { toast } from "sonner";
 import axios from "axios";
+
+const ALLOWED_ROLES = [
+  Roles.SUPER_ADMIN,
+  Roles.ADMIN,
+  Roles.ORGANIZER,
+] as const;
 
 export function useLoginMutation(redirectTo?: string) {
   const { setAuth } = useAuthStore();
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: (credentials: LoginRequest) =>
-      api.post<AuthResponse>("/v1/auth/login", credentials).then((r) => r.data),
+    mutationFn: async (credentials: LoginRequest) => {
+      let response: AuthResponse;
+      try {
+        response = await api
+          .post<AuthResponse>("/v1/auth/login", credentials)
+          .then((r) => r.data);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          throw new Error(
+            err.response?.data?.message ??
+              "Invalid email or password. Please try again.",
+          );
+        }
+        throw err;
+      }
+
+      const decoded = decodeToken(response.data.accessToken);
+      const roles: string[] = decoded.roles ?? [];
+
+      if (!ALLOWED_ROLES.some((role) => roles.includes(role))) {
+        throw new Error(
+          "Access denied. This portal is restricted to administrators and organizers only.",
+        );
+      }
+
+      return response;
+    },
 
     onSuccess: (response) => {
-      setAuth(response.data);
       const decoded = decodeToken(response.data.accessToken);
-      const roles = decoded.roles ?? [];
-      const permissions = decoded.permissions ?? [];
+      const roles: string[] = decoded.roles ?? [];
+      const permissions: string[] = decoded.permissions ?? [];
+
+      setAuth(response.data);
       navigate({ to: redirectTo ?? getRedirectPath(roles, permissions) });
     },
   });
@@ -87,9 +120,7 @@ export function useChangePasswordMutation() {
     },
     onError: (error: Error) => {
       if (axios.isAxiosError(error)) {
-        toast.error(
-          error.response?.data?.message || "Failed to change password",
-        );
+        toast.error(error.response?.data || "Failed to change password");
       } else {
         toast.error("Something went wrong");
       }

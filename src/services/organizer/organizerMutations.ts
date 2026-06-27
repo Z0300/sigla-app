@@ -57,15 +57,17 @@ export function useUpdateEvent(eventId: number) {
   return useMutation({
     mutationFn: async (values: Partial<EventFormValues>) => {
       const { data } = await api.patch<SingleResponse<OrganizerEvent>>(
-        `/events/${eventId}`,
+        `/v1/events/${eventId}`,
         values,
       );
       return data.data;
     },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: eventKeys.organizerDetail(eventId) });
-      qc.invalidateQueries({ queryKey: eventKeys.organizerSessions(eventId) });
-      qc.invalidateQueries({ queryKey: eventKeys.organizerAttendees(eventId) });
+      qc.invalidateQueries({ queryKey: eventKeys.organizerAll() });
+      toast.success("Event updated successfully");
+    },
+    onError: () => {
+      toast.error("Failed to update event");
     },
   });
 }

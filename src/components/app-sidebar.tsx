@@ -1,6 +1,6 @@
 import { Permissions } from "#/constants/permissions";
 import { useAuthStore } from "#/store/authStore";
-import { AudioLinesIcon, Calendar, GalleryVerticalEndIcon, LayoutDashboardIcon, Settings2Icon, TerminalIcon } from "lucide-react";
+import { Calendar, GalleryVerticalEndIcon, LayoutDashboardIcon, Settings2Icon } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "./ui/sidebar";
 import { AppBrand } from "./app-brand";
 import { NavMain } from "./nav-main";
@@ -33,7 +33,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const navMain = [
     {
       title: "Dashboard",
-      url: "/dashboard",
+      url: "/",
       icon: <LayoutDashboardIcon />,
     },
     {
