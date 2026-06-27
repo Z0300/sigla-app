@@ -21,6 +21,7 @@ interface LoginFormProps {
 export function LoginPage({ redirectTo }: LoginFormProps) {
   const loginMutation = useLoginMutation(redirectTo);
   const [showPassword, setShowPassword] = useState(false);
+  console.log(loginMutation.error);
 
   const form = useForm({
     defaultValues: {
@@ -135,7 +136,7 @@ export function LoginPage({ redirectTo }: LoginFormProps) {
                 <div className="flex items-start gap-2.5 rounded-md border border-destructive/30 bg-destructive/8 px-3.5 py-2.5 text-destructive">
                   <AlertCircle size={15} className="mt-0.5 shrink-0" />
                   <p className="text-sm leading-snug">
-                    {(loginMutation.error as any)?.response?.data?.message ??
+                    {(loginMutation.error?.message as string) ??
                       "Invalid email or password. Please try again."}
                   </p>
                 </div>

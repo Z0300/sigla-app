@@ -31,7 +31,7 @@ export function useOrganizerEventDetail(eventId: number) {
     queryKey: eventKeys.organizerDetail(eventId),
     queryFn: async () => {
       const { data } = await api.get<SingleResponse<EventDetail>>(
-        `/events/withSession/${eventId}`,
+        `/v1/events/withSession/${eventId}`,
       );
       return data.data;
     },

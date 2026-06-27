@@ -16,8 +16,8 @@ import { useCreateSession, useUpdateSession } from '#/services/organizer/organiz
 import { useForm } from '@tanstack/react-form'
 import { SessionSchema } from '#/schemas'
 import { FormFieldError } from '#/components/form/form-field-error'
-import { dateToMax, dateToMin, fmtDate, getEventDays, splitDateTime, toLocalInput } from '#/utils/date'
-import { DateTimePicker } from '#/components/form/date-time-picker'
+import { fmtDate, getEventDays, splitDateTime } from '#/utils/date'
+import { TimePicker } from '#/components/form/time-picker'
 
 interface Props {
     open: boolean
@@ -154,7 +154,6 @@ export function SessionFormDialog({ open, onOpenChange, eventId, event, session 
                         )}
                     />
 
-                    {/* Day selector */}
                     <form.Field
                         name="dayIndex"
                         children={(field) => (
@@ -174,22 +173,19 @@ export function SessionFormDialog({ open, onOpenChange, eventId, event, session 
                         )}
                     />
 
-                    {/* Start / end time */}
                     <div className="grid grid-cols-2 gap-3">
                         <form.Field
                             name="startTimeOnly"
                             children={(field) => (
                                 <div className="space-y-1.5">
                                     <Label>Start time <span className="text-destructive">*</span></Label>
-                                    <Input
-                                        type="time"
+                                    <TimePicker
                                         value={field.state.value}
-                                        onChange={(e) => {
-                                            field.handleChange(e.target.value)
-                                            // nudge end time if needed
+                                        onChange={(val) => {
+                                            field.handleChange(val)
                                             const end = form.getFieldValue('endTimeOnly')
-                                            if (end && e.target.value && end <= e.target.value) {
-                                                const [h, m] = e.target.value.split(':').map(Number)
+                                            if (end && val && end <= val) {
+                                                const [h, m] = val.split(':').map(Number)
                                                 const nudged = h < 23 ? `${String(h + 1).padStart(2, '0')}:${String(m).padStart(2, '0')}` : '23:59'
                                                 form.setFieldValue('endTimeOnly', nudged)
                                             }
@@ -206,10 +202,9 @@ export function SessionFormDialog({ open, onOpenChange, eventId, event, session 
                             children={(field) => (
                                 <div className="space-y-1.5">
                                     <Label>End time <span className="text-destructive">*</span></Label>
-                                    <Input
-                                        type="time"
+                                    <TimePicker
                                         value={field.state.value}
-                                        onChange={(e) => field.handleChange(e.target.value)}
+                                        onChange={field.handleChange}
                                         onBlur={field.handleBlur}
                                     />
                                     <FormFieldError touched={field.state.meta.isTouched} errors={field.state.meta.errors} />
@@ -218,7 +213,6 @@ export function SessionFormDialog({ open, onOpenChange, eventId, event, session 
                         />
                     </div>
 
-                    {/* Duration hint */}
                     <form.Subscribe
                         selector={(s) => [s.values.startTimeOnly, s.values.endTimeOnly]}
                         children={([start, end]) => {

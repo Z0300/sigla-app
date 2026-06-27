@@ -34,9 +34,16 @@ export function NavMain({
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
 
+  const isLinkActive = (url: string) => {
+    if (url === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(url);
+  };
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>Menu</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) =>
           item.items?.length ? (
@@ -45,7 +52,7 @@ export function NavMain({
               asChild
               defaultOpen={
                 item.isActive ||
-                item.items.some((sub) => pathname.startsWith(sub.url))
+                item.items.some((sub) => isLinkActive(sub.url))
               }
               className="group/collapsible"
             >
@@ -53,7 +60,7 @@ export function NavMain({
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton
                     tooltip={item.title}
-                    isActive={item.items.some((sub) => pathname.startsWith(sub.url))}
+                    isActive={item.items.some((sub) => isLinkActive(sub.url))}
                     className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground"
                   >
                     {item.icon}
@@ -67,7 +74,7 @@ export function NavMain({
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton
                           asChild
-                          isActive={pathname.startsWith(subItem.url)}
+                          isActive={isLinkActive(subItem.url)}
                           className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground"
                         >
                           <Link
@@ -88,7 +95,7 @@ export function NavMain({
               <SidebarMenuButton
                 tooltip={item.title}
                 asChild
-                isActive={pathname.startsWith(item.url)}
+                isActive={isLinkActive(item.url)}
                 className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground"
               >
                 <Link
