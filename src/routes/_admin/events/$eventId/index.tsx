@@ -1,9 +1,9 @@
 import { requirePermission } from "@/utils/routeGuard";
 import { Permissions } from "@/constants/permissions";
 import { createFileRoute } from '@tanstack/react-router'
-import { EventDetailPage } from "#/features/organizer/EventDetailPage";
+import { EventDetailPage } from "#/features/events/EventDetailPage";
 
-export const Route = createFileRoute('/_admin/organizer/events/$eventId/')({
+export const Route = createFileRoute('/_admin/events/$eventId/')({
   beforeLoad: () => {
     requirePermission(Permissions.EVENTS_READ);
   },

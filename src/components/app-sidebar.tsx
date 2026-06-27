@@ -1,22 +1,20 @@
 import { Permissions } from "#/constants/permissions";
 import { useAuthStore } from "#/store/authStore";
-import { Calendar, GalleryVerticalEndIcon, LayoutDashboardIcon, Settings2Icon } from "lucide-react";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "./ui/sidebar";
+import { Calendar, LayoutDashboardIcon, Settings2Icon } from "lucide-react";
+import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "./ui/sidebar";
 import { AppBrand } from "./app-brand";
 import { NavMain } from "./nav-main";
-import { NavUser } from "./nav-user";
 
 const teams = [
   {
     name: "SIGLA",
-    logo: <GalleryVerticalEndIcon />,
+    logo: "/logo.png",
     plan: "v1.0",
   }
 ]
 
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { user, permissions } = useAuthStore();
+  const { permissions } = useAuthStore();
 
   const canReadUsers = permissions.includes(Permissions.USERS_READ)
   const canReadRoles = permissions.includes(Permissions.ROLES_READ)
@@ -38,7 +36,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
     {
       title: "Events",
-      url: "/organizer/events",
+      url: "/events",
       icon: <Calendar />,
     },
     ...(canAccessManagement ? [{
@@ -57,9 +55,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={navMain} />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={user} />
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

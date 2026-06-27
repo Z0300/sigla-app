@@ -30,6 +30,11 @@ export function TablePagination<TData>({
   pageSize,
   onPageChange,
 }: TablePaginationProps<TData>) {
+
+  const totalPages = table.getPageCount()
+  const canPrev = page > 0
+  const canNext = page < totalPages - 1
+
   return (
     <div className="flex items-center justify-between px-4">
       <div className="hidden flex-1 text-sm text-muted-foreground lg:flex"></div>
@@ -66,7 +71,7 @@ export function TablePagination<TData>({
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
             onClick={() => onPageChange(0)}
-            disabled={!table.getCanPreviousPage()}
+            disabled={!canPrev}
           >
             <ChevronsLeftIcon />
           </Button>
@@ -76,7 +81,7 @@ export function TablePagination<TData>({
             size="icon"
             className="size-8"
             onClick={() => onPageChange(page - 1)}
-            disabled={!table.getCanPreviousPage()}
+            disabled={!canPrev}
           >
             <ChevronLeftIcon />
           </Button>
@@ -86,7 +91,7 @@ export function TablePagination<TData>({
             size="icon"
             className="size-8"
             onClick={() => onPageChange(page + 1)}
-            disabled={!table.getCanNextPage()}
+            disabled={!canNext}
           >
             <ChevronRightIcon />
           </Button>
@@ -95,8 +100,8 @@ export function TablePagination<TData>({
             variant="outline"
             size="icon"
             className="hidden size-8 lg:flex"
-            onClick={() => onPageChange(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
+            onClick={() => onPageChange(totalPages - 1)}
+            disabled={!canNext}
           >
             <ChevronsRightIcon />
           </Button>

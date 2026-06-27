@@ -8,6 +8,9 @@ import { useForm } from '@tanstack/react-form'
 import { EventSchema } from '#/schemas'
 import { FormFieldError } from '#/components/form/form-field-error'
 import { DateTimePicker } from '#/components/form/date-picker'
+import { ValidationError } from '#/components/form/validation-error'
+import type { ErrorResponse } from '#/types'
+import type { AxiosError } from 'axios'
 
 interface Props {
     mode: 'create' | 'edit'
@@ -56,6 +59,19 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
             }}
             className="space-y-6"
         >
+            {mutation.isError && (
+                <ValidationError title={`Failed to ${mode} event.`}
+                    description={(() => {
+                        const data = (mutation.error as AxiosError<ErrorResponse>)?.response?.data
+                        if (!data) return 'An error occurred. Please try again.'
+
+                        const details = data.details as Record<string, string>
+                        if (details && Object.keys(details).length > 0) {
+                            return Object.values(details).join(', ')
+                        }
+                        return data.message ?? 'An error occurred. Please try again.'
+                    })()} />
+            )}
 
             <form.Field
                 name="title"
@@ -199,17 +215,6 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                     </div>
                 )}
             />
-
-
-            {mutation.isError && (
-                <div className="rounded-lg bg-destructive/10 p-4 text-sm text-destructive">
-                    <p className="font-medium">Failed to save event</p>
-                    <p className="mt-1">
-                        {(mutation.error as any)?.response?.data?.message ?? 'An error occurred. Please try again.'}
-                    </p>
-                </div>
-            )}
-
 
             {locked && (
                 <div className="rounded-lg bg-amber-50 dark:bg-amber-950/30 p-4 text-sm text-amber-800 dark:text-amber-300">

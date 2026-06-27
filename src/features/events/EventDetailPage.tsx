@@ -50,7 +50,7 @@ export function EventDetailPage() {
     return (
         <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
             <button
-                onClick={() => navigate({ to: '/organizer/events' })}
+                onClick={() => navigate({ to: '/events' })}
                 className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
                 <ArrowLeft className="h-4 w-4" />

@@ -1,5 +1,5 @@
 import { Permissions } from '#/constants/permissions'
-import { OrganizerDashboard } from '#/features/organizer/OrganizerDashboard'
+import { DashboardPage } from '#/features/events/DashboardPage'
 import { requirePermission } from '#/utils/routeGuard'
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -10,6 +10,6 @@ export const Route = createFileRoute('/_admin/')({
   staticData: {
     title: "Dashboard"
   },
-  component: OrganizerDashboard,
+  component: DashboardPage,
 })
 

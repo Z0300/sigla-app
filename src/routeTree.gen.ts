@@ -18,12 +18,12 @@ import { Route as AuthChangePasswordRouteImport } from './routes/_auth/change-pa
 import { Route as AdminUsersIndexRouteImport } from './routes/_admin/users/index'
 import { Route as AdminRolesIndexRouteImport } from './routes/_admin/roles/index'
 import { Route as AdminPermissionsIndexRouteImport } from './routes/_admin/permissions/index'
+import { Route as AdminEventsIndexRouteImport } from './routes/_admin/events/index'
+import { Route as AdminEventsNewRouteImport } from './routes/_admin/events/new'
 import { Route as AdminUsersProfileIndexRouteImport } from './routes/_admin/users/profile/index'
-import { Route as AdminOrganizerEventsIndexRouteImport } from './routes/_admin/organizer/events/index'
+import { Route as AdminEventsEventIdIndexRouteImport } from './routes/_admin/events/$eventId/index'
 import { Route as AdminRolesRoleIdPermissionsRouteImport } from './routes/_admin/roles/$roleId/permissions'
-import { Route as AdminOrganizerEventsNewRouteImport } from './routes/_admin/organizer/events/new'
-import { Route as AdminOrganizerEventsEventIdIndexRouteImport } from './routes/_admin/organizer/events/$eventId/index'
-import { Route as AdminOrganizerEventsEventIdEditRouteImport } from './routes/_admin/organizer/events/$eventId/edit'
+import { Route as AdminEventsEventIdEditRouteImport } from './routes/_admin/events/$eventId/edit'
 
 const UnauthorizedRoute = UnauthorizedRouteImport.update({
   id: '/unauthorized',
@@ -68,70 +68,67 @@ const AdminPermissionsIndexRoute = AdminPermissionsIndexRouteImport.update({
   path: '/permissions/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminEventsIndexRoute = AdminEventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEventsNewRoute = AdminEventsNewRouteImport.update({
+  id: '/events/new',
+  path: '/events/new',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminUsersProfileIndexRoute = AdminUsersProfileIndexRouteImport.update({
   id: '/users/profile/',
   path: '/users/profile/',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminOrganizerEventsIndexRoute =
-  AdminOrganizerEventsIndexRouteImport.update({
-    id: '/organizer/events/',
-    path: '/organizer/events/',
-    getParentRoute: () => AdminRoute,
-  } as any)
+const AdminEventsEventIdIndexRoute = AdminEventsEventIdIndexRouteImport.update({
+  id: '/events/$eventId/',
+  path: '/events/$eventId/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminRolesRoleIdPermissionsRoute =
   AdminRolesRoleIdPermissionsRouteImport.update({
     id: '/roles/$roleId/permissions',
     path: '/roles/$roleId/permissions',
     getParentRoute: () => AdminRoute,
   } as any)
-const AdminOrganizerEventsNewRoute = AdminOrganizerEventsNewRouteImport.update({
-  id: '/organizer/events/new',
-  path: '/organizer/events/new',
+const AdminEventsEventIdEditRoute = AdminEventsEventIdEditRouteImport.update({
+  id: '/events/$eventId/edit',
+  path: '/events/$eventId/edit',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminOrganizerEventsEventIdIndexRoute =
-  AdminOrganizerEventsEventIdIndexRouteImport.update({
-    id: '/organizer/events/$eventId/',
-    path: '/organizer/events/$eventId/',
-    getParentRoute: () => AdminRoute,
-  } as any)
-const AdminOrganizerEventsEventIdEditRoute =
-  AdminOrganizerEventsEventIdEditRouteImport.update({
-    id: '/organizer/events/$eventId/edit',
-    path: '/organizer/events/$eventId/edit',
-    getParentRoute: () => AdminRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AdminIndexRoute
   '/login': typeof LoginRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/change-password': typeof AuthChangePasswordRoute
+  '/events/new': typeof AdminEventsNewRoute
+  '/events/': typeof AdminEventsIndexRoute
   '/permissions/': typeof AdminPermissionsIndexRoute
   '/roles/': typeof AdminRolesIndexRoute
   '/users/': typeof AdminUsersIndexRoute
-  '/organizer/events/new': typeof AdminOrganizerEventsNewRoute
+  '/events/$eventId/edit': typeof AdminEventsEventIdEditRoute
   '/roles/$roleId/permissions': typeof AdminRolesRoleIdPermissionsRoute
-  '/organizer/events/': typeof AdminOrganizerEventsIndexRoute
+  '/events/$eventId/': typeof AdminEventsEventIdIndexRoute
   '/users/profile/': typeof AdminUsersProfileIndexRoute
-  '/organizer/events/$eventId/edit': typeof AdminOrganizerEventsEventIdEditRoute
-  '/organizer/events/$eventId/': typeof AdminOrganizerEventsEventIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AdminIndexRoute
   '/login': typeof LoginRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/change-password': typeof AuthChangePasswordRoute
+  '/events/new': typeof AdminEventsNewRoute
+  '/events': typeof AdminEventsIndexRoute
   '/permissions': typeof AdminPermissionsIndexRoute
   '/roles': typeof AdminRolesIndexRoute
   '/users': typeof AdminUsersIndexRoute
-  '/organizer/events/new': typeof AdminOrganizerEventsNewRoute
+  '/events/$eventId/edit': typeof AdminEventsEventIdEditRoute
   '/roles/$roleId/permissions': typeof AdminRolesRoleIdPermissionsRoute
-  '/organizer/events': typeof AdminOrganizerEventsIndexRoute
+  '/events/$eventId': typeof AdminEventsEventIdIndexRoute
   '/users/profile': typeof AdminUsersProfileIndexRoute
-  '/organizer/events/$eventId/edit': typeof AdminOrganizerEventsEventIdEditRoute
-  '/organizer/events/$eventId': typeof AdminOrganizerEventsEventIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -141,15 +138,15 @@ export interface FileRoutesById {
   '/unauthorized': typeof UnauthorizedRoute
   '/_auth/change-password': typeof AuthChangePasswordRoute
   '/_admin/': typeof AdminIndexRoute
+  '/_admin/events/new': typeof AdminEventsNewRoute
+  '/_admin/events/': typeof AdminEventsIndexRoute
   '/_admin/permissions/': typeof AdminPermissionsIndexRoute
   '/_admin/roles/': typeof AdminRolesIndexRoute
   '/_admin/users/': typeof AdminUsersIndexRoute
-  '/_admin/organizer/events/new': typeof AdminOrganizerEventsNewRoute
+  '/_admin/events/$eventId/edit': typeof AdminEventsEventIdEditRoute
   '/_admin/roles/$roleId/permissions': typeof AdminRolesRoleIdPermissionsRoute
-  '/_admin/organizer/events/': typeof AdminOrganizerEventsIndexRoute
+  '/_admin/events/$eventId/': typeof AdminEventsEventIdIndexRoute
   '/_admin/users/profile/': typeof AdminUsersProfileIndexRoute
-  '/_admin/organizer/events/$eventId/edit': typeof AdminOrganizerEventsEventIdEditRoute
-  '/_admin/organizer/events/$eventId/': typeof AdminOrganizerEventsEventIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -158,30 +155,30 @@ export interface FileRouteTypes {
     | '/login'
     | '/unauthorized'
     | '/change-password'
+    | '/events/new'
+    | '/events/'
     | '/permissions/'
     | '/roles/'
     | '/users/'
-    | '/organizer/events/new'
+    | '/events/$eventId/edit'
     | '/roles/$roleId/permissions'
-    | '/organizer/events/'
+    | '/events/$eventId/'
     | '/users/profile/'
-    | '/organizer/events/$eventId/edit'
-    | '/organizer/events/$eventId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/unauthorized'
     | '/change-password'
+    | '/events/new'
+    | '/events'
     | '/permissions'
     | '/roles'
     | '/users'
-    | '/organizer/events/new'
+    | '/events/$eventId/edit'
     | '/roles/$roleId/permissions'
-    | '/organizer/events'
+    | '/events/$eventId'
     | '/users/profile'
-    | '/organizer/events/$eventId/edit'
-    | '/organizer/events/$eventId'
   id:
     | '__root__'
     | '/_admin'
@@ -190,15 +187,15 @@ export interface FileRouteTypes {
     | '/unauthorized'
     | '/_auth/change-password'
     | '/_admin/'
+    | '/_admin/events/new'
+    | '/_admin/events/'
     | '/_admin/permissions/'
     | '/_admin/roles/'
     | '/_admin/users/'
-    | '/_admin/organizer/events/new'
+    | '/_admin/events/$eventId/edit'
     | '/_admin/roles/$roleId/permissions'
-    | '/_admin/organizer/events/'
+    | '/_admin/events/$eventId/'
     | '/_admin/users/profile/'
-    | '/_admin/organizer/events/$eventId/edit'
-    | '/_admin/organizer/events/$eventId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -273,6 +270,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPermissionsIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/events/': {
+      id: '/_admin/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof AdminEventsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/events/new': {
+      id: '/_admin/events/new'
+      path: '/events/new'
+      fullPath: '/events/new'
+      preLoaderRoute: typeof AdminEventsNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/users/profile/': {
       id: '/_admin/users/profile/'
       path: '/users/profile'
@@ -280,11 +291,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersProfileIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/_admin/organizer/events/': {
-      id: '/_admin/organizer/events/'
-      path: '/organizer/events'
-      fullPath: '/organizer/events/'
-      preLoaderRoute: typeof AdminOrganizerEventsIndexRouteImport
+    '/_admin/events/$eventId/': {
+      id: '/_admin/events/$eventId/'
+      path: '/events/$eventId'
+      fullPath: '/events/$eventId/'
+      preLoaderRoute: typeof AdminEventsEventIdIndexRouteImport
       parentRoute: typeof AdminRoute
     }
     '/_admin/roles/$roleId/permissions': {
@@ -294,25 +305,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRolesRoleIdPermissionsRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/_admin/organizer/events/new': {
-      id: '/_admin/organizer/events/new'
-      path: '/organizer/events/new'
-      fullPath: '/organizer/events/new'
-      preLoaderRoute: typeof AdminOrganizerEventsNewRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/organizer/events/$eventId/': {
-      id: '/_admin/organizer/events/$eventId/'
-      path: '/organizer/events/$eventId'
-      fullPath: '/organizer/events/$eventId/'
-      preLoaderRoute: typeof AdminOrganizerEventsEventIdIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/organizer/events/$eventId/edit': {
-      id: '/_admin/organizer/events/$eventId/edit'
-      path: '/organizer/events/$eventId/edit'
-      fullPath: '/organizer/events/$eventId/edit'
-      preLoaderRoute: typeof AdminOrganizerEventsEventIdEditRouteImport
+    '/_admin/events/$eventId/edit': {
+      id: '/_admin/events/$eventId/edit'
+      path: '/events/$eventId/edit'
+      fullPath: '/events/$eventId/edit'
+      preLoaderRoute: typeof AdminEventsEventIdEditRouteImport
       parentRoute: typeof AdminRoute
     }
   }
@@ -320,28 +317,28 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminEventsNewRoute: typeof AdminEventsNewRoute
+  AdminEventsIndexRoute: typeof AdminEventsIndexRoute
   AdminPermissionsIndexRoute: typeof AdminPermissionsIndexRoute
   AdminRolesIndexRoute: typeof AdminRolesIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
-  AdminOrganizerEventsNewRoute: typeof AdminOrganizerEventsNewRoute
+  AdminEventsEventIdEditRoute: typeof AdminEventsEventIdEditRoute
   AdminRolesRoleIdPermissionsRoute: typeof AdminRolesRoleIdPermissionsRoute
-  AdminOrganizerEventsIndexRoute: typeof AdminOrganizerEventsIndexRoute
+  AdminEventsEventIdIndexRoute: typeof AdminEventsEventIdIndexRoute
   AdminUsersProfileIndexRoute: typeof AdminUsersProfileIndexRoute
-  AdminOrganizerEventsEventIdEditRoute: typeof AdminOrganizerEventsEventIdEditRoute
-  AdminOrganizerEventsEventIdIndexRoute: typeof AdminOrganizerEventsEventIdIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
+  AdminEventsNewRoute: AdminEventsNewRoute,
+  AdminEventsIndexRoute: AdminEventsIndexRoute,
   AdminPermissionsIndexRoute: AdminPermissionsIndexRoute,
   AdminRolesIndexRoute: AdminRolesIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
-  AdminOrganizerEventsNewRoute: AdminOrganizerEventsNewRoute,
+  AdminEventsEventIdEditRoute: AdminEventsEventIdEditRoute,
   AdminRolesRoleIdPermissionsRoute: AdminRolesRoleIdPermissionsRoute,
-  AdminOrganizerEventsIndexRoute: AdminOrganizerEventsIndexRoute,
+  AdminEventsEventIdIndexRoute: AdminEventsEventIdIndexRoute,
   AdminUsersProfileIndexRoute: AdminUsersProfileIndexRoute,
-  AdminOrganizerEventsEventIdEditRoute: AdminOrganizerEventsEventIdEditRoute,
-  AdminOrganizerEventsEventIdIndexRoute: AdminOrganizerEventsEventIdIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
