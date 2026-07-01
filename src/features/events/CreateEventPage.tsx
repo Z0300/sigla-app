@@ -6,7 +6,7 @@ export function CreateEventPage() {
     const navigate = useNavigate()
 
     return (
-        <div className="mx-auto px-6 py-10 space-y-8">
+        <div className="max-w-4xl mx-auto px-6 py-8">
             <button
                 onClick={() => navigate({ to: '/events' })}
                 className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -15,8 +15,8 @@ export function CreateEventPage() {
                 Back to events
             </button>
 
-            <div className="space-y-2">
-                <h1 className="text-4xl font-bold tracking-tight">Create new event</h1>
+            <div className="space-y-2 py-8">
+                <h1 className="text-2xl font-bold tracking-tight">Create new event</h1>
                 <p className="text-base text-muted-foreground leading-relaxed">
                     Set up your event with all the details. You'll be able to add sessions and manage attendees after creation.
                 </p>

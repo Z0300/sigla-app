@@ -121,7 +121,7 @@ export function useDeleteSession(eventId: number) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (sessionId: number) => {
-      await api.delete(`/events/${eventId}/sessions/${sessionId}`);
+      await api.delete(`/v1/events/${eventId}/sessions/${sessionId}`);
     },
     onSuccess: () =>
       qc.invalidateQueries({ queryKey: eventKeys.organizerSessions(eventId) }),

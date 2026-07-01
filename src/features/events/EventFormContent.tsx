@@ -151,10 +151,11 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                     name="startDate"
                     children={(field) => (
                         <div className="space-y-2">
-                            <Label htmlFor={field.name}>
+                            <Label htmlFor="startDate">
                                 Start date <span className="text-destructive">*</span>
                             </Label>
                             <DateTimePicker
+                                id="startDate"
                                 value={field.state.value}
                                 disabled={locked}
                                 onChange={field.handleChange}
@@ -172,10 +173,11 @@ export function EventFormContent({ mode, event, onSuccess }: Props) {
                     name="endDate"
                     children={(field) => (
                         <div className="space-y-2">
-                            <Label htmlFor={field.name}>
+                            <Label htmlFor="endDate">
                                 End date <span className="text-destructive">*</span>
                             </Label>
                             <DateTimePicker
+                                id="endDate"
                                 value={field.state.value}
                                 disabled={locked}
                                 onChange={field.handleChange}

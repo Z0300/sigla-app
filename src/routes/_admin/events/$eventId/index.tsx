@@ -8,7 +8,7 @@ export const Route = createFileRoute('/_admin/events/$eventId/')({
     requirePermission(Permissions.EVENTS_READ);
   },
   staticData: {
-    title: "Event Detail",
+    title: "Manage Event",
   },
   component: EventDetailPage,
 })
