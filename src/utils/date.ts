@@ -58,8 +58,9 @@ export function splitDateTime(
   days: { date: string }[],
 ) {
   if (!iso) return { dayIndex: 0, time: "" };
-  const datePart = iso.slice(0, 10);
-  const timePart = iso.slice(11, 16);
+  const clean = iso.endsWith("Z") ? iso.slice(0, 19) : iso;
+  const datePart = clean.slice(0, 10);
+  const timePart = clean.slice(11, 16);
   const idx = days.findIndex((d) => d.date === datePart);
   return { dayIndex: idx >= 0 ? idx : 0, time: timePart };
 }

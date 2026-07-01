@@ -61,6 +61,8 @@ export interface OrganizerSession {
   capacity: number;
   checkInCount: number;
   createdAt: string;
+  hasConflict?: boolean;
+  conflictingSessions?: OrganizerSession;
 }
 
 export interface OrganizerAttendee {

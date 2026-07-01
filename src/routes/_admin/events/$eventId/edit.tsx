@@ -4,10 +4,12 @@ import { requirePermission } from '#/utils/routeGuard'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_admin/events/$eventId/edit')({
-  beforeLoad: () => requirePermission(Permissions.EVENTS_UPDATE),
-  component: EditEventPage,
+  beforeLoad: () => {
+    requirePermission(Permissions.EVENTS_UPDATE)
+  },
   staticData: {
     title: "Edit Event"
-  }
+  },
+  component: EditEventPage,
 })
 

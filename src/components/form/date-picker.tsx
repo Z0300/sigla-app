@@ -7,6 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { cn } from '#/utils/cn'
 
 interface DatePickerProps {
+    id?: string
     value: string
     onChange: (val: string) => void
     onBlur?: () => void
@@ -17,6 +18,7 @@ interface DatePickerProps {
 }
 
 export function DateTimePicker({
+    id,
     value,
     onChange,
     onBlur,
@@ -46,6 +48,7 @@ export function DateTimePicker({
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <Button
+                        id={id}
                         variant="outline"
                         disabled={disabled}
                         onBlur={onBlur}

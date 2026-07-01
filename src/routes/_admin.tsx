@@ -69,7 +69,9 @@ function AuthenticatedLayoutInner() {
       <AppSidebar />
       <SidebarInset>
         <AppHeader title={title} />
-        <Outlet />
+        <div className="flex-1 w-full overflow-y-auto">
+          <Outlet />
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
