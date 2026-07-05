@@ -49,6 +49,9 @@ export function useCreateEvent() {
     },
     onSuccess: () =>
       qc.invalidateQueries({ queryKey: eventKeys.organizerAll() }),
+    onError: () => {
+      toast.error("Failed to create event");
+    },
   });
 }
 
