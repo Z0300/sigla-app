@@ -22,18 +22,75 @@ const TABS: { label: string; value: EventStatus | "All" }[] = [
     { label: "Past", value: EventStatus.completed },
     { label: "Cancelled", value: EventStatus.cancelled },
 ]
+
+const DATE_PRESETS = [
+    { label: "All Time", value: "all" },
+    { label: "This Month", value: "month" },
+    { label: "Next 3 Months", value: "next3" },
+    { label: "Custom Range", value: "custom" },
+] as const;
+
+function toISODate(d: Date) {
+    return d.toISOString().slice(0, 10);
+}
+
+function resolveDateRange(
+    preset: string,
+    customStart: string,
+    customEnd: string
+): { startDate?: string; endDate?: string } {
+    const now = new Date();
+    switch (preset) {
+        case "month": {
+            const start = new Date(now.getFullYear(), now.getMonth(), 1);
+            const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+            return { startDate: toISODate(start), endDate: toISODate(end) };
+        }
+        case "next3": {
+            const end = new Date(now.getFullYear(), now.getMonth() + 3, 0);
+            return { startDate: toISODate(now), endDate: toISODate(end) };
+        }
+        case "custom":
+            return {
+                startDate: customStart || undefined,
+                endDate: customEnd || undefined,
+            };
+        default:
+            return {};
+    }
+}
+
 export function EventsPage() {
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(20);
     const [search, setSearch] = useState("");
     const [status, setStatus] = useState<EventStatus | "All">("All");
 
+    // APPLIED filters (drive the query)
+    const [appliedDatePreset, setAppliedDatePreset] = useState("all");
+    const [appliedStartDate, setAppliedStartDate] = useState("");
+    const [appliedEndDate, setAppliedEndDate] = useState("");
+
+
+    // DRAFT filters (live inside the popover only)
+    const [draftPreset, setDraftPreset] = useState(appliedDatePreset);
+    const [draftStart, setDraftStart] = useState(appliedStartDate);
+    const [draftEnd, setDraftEnd] = useState(appliedEndDate);
+
     const updateStatus = useUpdateEventStatus();
+
+    const { startDate, endDate } = resolveDateRange(
+        appliedDatePreset,
+        appliedStartDate,
+        appliedEndDate
+    );
 
     const filters: OrganizerEventFilters = {
         ...(search ? { search } : {}),
         ...(search ? { searchTerm: search } : {}),
         ...(status !== "All" ? { status } : {}),
+        ...(startDate ? { startDate } : {}),
+        ...(endDate ? { endDate } : {}),
         page,
         size: pageSize
     };
@@ -41,14 +98,6 @@ export function EventsPage() {
     const { data, isLoading } = useOrganizerEvents(filters);
 
     const [filterOpen, setFilterOpen] = useState(false)
-    const [dateRange, setDateRange] = useState("all")
-    const [locations, setLocations] = useState<string[]>([])
-    const [categories, setCategories] = useState<string[]>([])
-
-    function toggleArray(arr: string[], val: string) {
-        return arr.includes(val) ? arr.filter(v => v !== val) : [...arr, val]
-    }
-
 
     const columns = useMemo(
         () =>
@@ -65,6 +114,36 @@ export function EventsPage() {
         setPage(newPage);
         if (newSize) setPageSize(newSize);
     };
+
+    const openFilters = (open: boolean) => {
+        if (open) {
+            // seed draft from currently applied values when opening
+            setDraftPreset(appliedDatePreset);
+            setDraftStart(appliedStartDate);
+            setDraftEnd(appliedEndDate);
+        }
+        setFilterOpen(open);
+    };
+
+    const applyFilters = () => {
+        setAppliedDatePreset(draftPreset);
+        setAppliedStartDate(draftStart);
+        setAppliedEndDate(draftEnd);
+        setPage(0);
+        setFilterOpen(false);
+    };
+
+    const clearFilters = () => {
+        setDraftPreset("all");
+        setDraftStart("");
+        setDraftEnd("");
+    };
+
+    const customRangeInvalid =
+        draftPreset === "custom" &&
+        draftStart &&
+        draftEnd &&
+        draftStart > draftEnd;
 
     return (
         <div className="space-y-4 p-6">
@@ -107,7 +186,7 @@ export function EventsPage() {
                         </div>
 
 
-                        <Popover open={filterOpen} onOpenChange={setFilterOpen}>
+                        <Popover open={filterOpen} onOpenChange={openFilters}>
                             <PopoverTrigger asChild>
                                 <Button variant="outline" size="sm" className="h-8 gap-2">
                                     <SlidersHorizontal className="h-3.5 w-3.5" />
@@ -115,80 +194,66 @@ export function EventsPage() {
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent align="end" className="w-72 p-4 space-y-4">
-
-                                {/* Date Range */}
                                 <div className="space-y-2">
                                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                                         Date Range
                                     </p>
-                                    {[
-                                        { label: "All Time", value: "all" },
-                                        { label: "This Month", value: "month" },
-                                        { label: "Next 3 Months", value: "next3" },
-                                    ].map((opt) => (
+                                    {DATE_PRESETS.map((opt) => (
                                         <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
                                             <Checkbox
-                                                checked={dateRange === opt.value}
-                                                onCheckedChange={() => setDateRange(opt.value)}
+                                                checked={draftPreset === opt.value}
+                                                onCheckedChange={() => setDraftPreset(opt.value)}
                                             />
                                             <span className="text-sm">{opt.label}</span>
                                         </label>
                                     ))}
-                                </div>
 
-                                {/* Location */}
-                                <div className="space-y-2">
-                                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                                        Location
-                                    </p>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {["Online", "San Francisco", "Austin", "NYC"].map((loc) => (
-                                            <label key={loc} className="flex items-center gap-2 cursor-pointer">
-                                                <Checkbox
-                                                    checked={locations.includes(loc)}
-                                                    onCheckedChange={() => setLocations(toggleArray(locations, loc))}
+                                    {draftPreset === "custom" && (
+                                        <div className="grid grid-cols-2 gap-2 pt-2">
+                                            <div className="space-y-1">
+                                                <p className="text-[11px] text-muted-foreground">From</p>
+                                                <Input
+                                                    type="date"
+                                                    value={draftStart}
+                                                    max={draftEnd || undefined}
+                                                    onChange={(e) => setDraftStart(e.target.value)}
+                                                    className="h-8 text-sm"
                                                 />
-                                                <span className="text-sm">{loc}</span>
-                                            </label>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Event Category */}
-                                <div className="space-y-2">
-                                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                                        Event Category
-                                    </p>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {["Conference", "Workshop", "Networking", "Product"].map((cat) => (
-                                            <label key={cat} className="flex items-center gap-2 cursor-pointer">
-                                                <Checkbox
-                                                    checked={categories.includes(cat)}
-                                                    onCheckedChange={() => setCategories(toggleArray(categories, cat))}
+                                            </div>
+                                            <div className="space-y-1">
+                                                <p className="text-[11px] text-muted-foreground">To</p>
+                                                <Input
+                                                    type="date"
+                                                    value={draftEnd}
+                                                    min={draftStart || undefined}
+                                                    onChange={(e) => setDraftEnd(e.target.value)}
+                                                    className="h-8 text-sm"
                                                 />
-                                                <span className="text-sm">{cat}</span>
-                                            </label>
-                                        ))}
-                                    </div>
+                                            </div>
+                                            {customRangeInvalid && (
+                                                <p className="col-span-2 text-xs text-destructive">
+                                                    Start date must be before end date.
+                                                </p>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
 
-                                {/* Footer */}
                                 <div className="flex items-center justify-between pt-2 border-t">
                                     <button
                                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                        onClick={() => {
-                                            setDateRange("all")
-                                            setLocations([])
-                                            setCategories([])
-                                        }}
+                                        onClick={clearFilters}
                                     >
                                         Clear All
                                     </button>
-                                    <Button size="sm" onClick={() => setFilterOpen(false)}>
+                                    <Button
+                                        size="sm"
+                                        onClick={applyFilters}
+                                        disabled={!!customRangeInvalid}
+                                    >
                                         Apply Filters
                                     </Button>
                                 </div>
-
                             </PopoverContent>
                         </Popover>
                     </div>

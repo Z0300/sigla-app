@@ -91,6 +91,8 @@ export interface OrganizerEventFilters {
   search?: string;
   searchTerm?: string;
   status?: EventStatus;
+  startDate?: string;
+  endDate?: string;
   page?: number;
   size?: number;
 }
